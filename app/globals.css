@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens ─────────────────────────────────────────────── */
+:root {
+  --color-primary:      #d41132;
+  --color-primary-hover: #b50e2a;
+  --color-bg-dark:      #12080a;
+  --color-bg-card:      #1d0e11;
+  --color-border:       #3d2226;
+  --color-accent-blue:  #00d4ff;
+  --color-success:      #0bda92;
+  --color-text-primary: #f1f5f9;   /* slate-100 */
+  --color-text-muted:   #94a3b8;   /* slate-400 */
+  --color-bg-light:     #f8f6f6;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-primary);
+    font-family: var(--font-lexend), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Remove default focus outline in favour of visible ring */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+/* ─── Utilities ─────────────────────────────────────────────────── */
+@layer utilities {
+  /* Radial dot grid — hero section background (Stitch screen 1) */
+  .grid-pattern {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(212, 17, 50, 0.05) 1px,
+      transparent 0
+    );
+    background-size: 40px 40px;
+  }
+
+  /* Left accent border — used on tagline, attribute pills */
+  .border-accent-left {
+    border-left: 4px solid var(--color-primary);
+  }
+
+  /* Card glow on hover */
+  .card-glow:hover {
+    box-shadow: 0 0 20px rgba(212, 17, 50, 0.08);
+  }
+
+  /* Performance metric value style */
+  .metric-value {
+    @apply text-xl font-black tracking-tighter;
+  }
+
+  /* Tech badge */
+  .tech-badge {
+    @apply text-[10px] font-bold text-slate-500 bg-slate-500/10
+           px-2 py-0.5 rounded border border-slate-500/20 uppercase;
+  }
+
+  /* Section label (small caps above headings) */
+  .section-label {
+    @apply text-[10px] font-bold uppercase tracking-widest;
+  }
+}
