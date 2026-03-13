@@ -9,26 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary brand — deep red
         primary: {
           DEFAULT: '#d41132',
           hover:   '#b50e2a',
           muted:   'rgba(212,17,50,0.1)',
         },
-        // Page backgrounds
-        'bg-dark':  '#12080a',
-        'bg-card':  '#1d0e11',
-        // Borders
-        'border-dark': '#3d2226',
-        // Accent blue (AI/ML highlight)
+        'bg-dark':  '#0d0608',
+        'bg-card':  '#160b0d',
+        'border-dark': '#2e1a1d',
         'accent-blue': '#00d4ff',
-        // Positive metric delta
         success: '#0bda92',
-        // Surface light (for light-mode bg, not actively used)
         'bg-light': '#f8f6f6',
       },
       fontFamily: {
-        display: ['var(--font-lexend)', 'sans-serif'],
+        bebas: ['var(--font-bebas)', 'sans-serif'],
+        ibm:   ['var(--font-ibm)', 'sans-serif'],
+        mono:  ['var(--font-mono)', 'monospace'],
       },
       borderRadius: {
         DEFAULT: '0.25rem',
@@ -39,12 +35,29 @@ const config: Config = {
         full: '9999px',
       },
       backgroundImage: {
-        // Radial dot grid used on hero section (matches Stitch screen 1)
         'grid-pattern':
-          'radial-gradient(circle at 1px 1px, rgba(212,17,50,0.05) 1px, transparent 0)',
+          'radial-gradient(circle at 1px 1px, rgba(212,17,50,0.04) 1px, transparent 0)',
+        'grid-line':
+          'linear-gradient(rgba(212,17,50,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(212,17,50,0.03) 1px, transparent 1px)',
       },
       backgroundSize: {
         'grid-40': '40px 40px',
+        'grid-60': '60px 60px',
+      },
+      animation: {
+        'scan': 'scan 6s linear infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'marquee': 'marquee 20s linear infinite',
+      },
+      keyframes: {
+        scan: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100vh)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
     },
   },

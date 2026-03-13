@@ -1,23 +1,37 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FaBrain, FaNetworkWired, FaChartLine } from 'react-icons/fa'
 
-const SKILLS = [
+const SKILL_GROUPS = [
   {
-    icon: <FaBrain size={22} />,
-    title: 'AI & Machine Learning',
-    items: ['PyTorch & TensorFlow', 'Computer Vision', 'Natural Language Processing', 'LLM Fine-tuning'],
+    label: 'Languages',
+    items: ['Python', 'TypeScript', 'SQL', 'Java', 'R'],
+    color: 'text-accent-blue border-accent-blue/20 bg-accent-blue/5',
   },
   {
-    icon: <FaNetworkWired size={22} />,
-    title: 'Systems & Tools',
-    items: ['Docker & Kubernetes', 'TCP/IP Networking', 'AWS Cloud Architecture', 'PostgreSQL / Redis'],
+    label: 'AI & ML',
+    items: ['PyTorch', 'TensorFlow', 'Scikit-learn', 'XGBoost', 'YOLOv8', 'SHAP', 'LLM Fine-tuning'],
+    color: 'text-primary border-primary/20 bg-primary/5',
   },
   {
-    icon: <FaChartLine size={22} />,
-    title: 'Econ & Finance',
-    items: ['Quantitative Analysis', 'Algorithmic Trading', 'Econometric Modeling', 'Bloomberg Terminal'],
+    label: 'Data',
+    items: ['Pandas', 'NumPy', 'Plotly', 'Seaborn', 'Matplotlib', 'FastAPI'],
+    color: 'text-success border-success/20 bg-success/5',
+  },
+  {
+    label: 'Systems & Cloud',
+    items: ['Docker', 'AWS', 'PostgreSQL', 'Redis', 'Cisco Packet Tracer', 'TCP/IP', 'OSPF', 'VLAN'],
+    color: 'text-accent-blue border-accent-blue/20 bg-accent-blue/5',
+  },
+  {
+    label: 'Finance & Econ',
+    items: ['Econometric Modeling', 'Bloomberg Terminal', 'Quantitative Analysis', 'Statsmodels'],
+    color: 'text-primary border-primary/20 bg-primary/5',
+  },
+  {
+    label: 'Tools',
+    items: ['Git', 'Jupyter', 'VS Code', 'Next.js', 'Vercel', 'Framer Motion'],
+    color: 'text-slate-400 border-slate-600/20 bg-slate-500/5',
   },
 ]
 
@@ -25,35 +39,54 @@ export default function SkillsSection() {
   return (
     <section
       id="skills"
-      className="px-6 py-16 md:px-12 lg:px-24 bg-bg-dark border-t border-primary/10"
+      className="relative px-6 py-20 md:px-12 lg:px-24 bg-bg-dark border-t border-border-dark overflow-hidden"
     >
-      <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {SKILLS.map((s, i) => (
-          <motion.div
-            key={s.title}
-            className="group bg-slate-900/40 p-8 rounded-xl border border-primary/10 hover:border-primary/50 transition-colors"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-          >
-            {/* Icon */}
-            <div className="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-              {s.icon}
-            </div>
+      {/* Top gradient line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-border-dark to-transparent" />
 
-            <h3 className="text-xl font-bold mb-4">{s.title}</h3>
+      <div className="max-w-[1280px] mx-auto">
 
-            <ul className="space-y-3">
-              {s.items.map((item) => (
-                <li key={item} className="flex items-center gap-3 text-slate-400">
-                  <span className="size-1.5 rounded-full bg-primary shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
+        {/* Header */}
+        <motion.div
+          className="flex flex-col gap-3 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+        >
+          <span className="section-label text-primary">Technical Stack</span>
+          <h2 className="font-bebas text-[clamp(40px,6vw,72px)] leading-none tracking-wide text-slate-100">
+            Skills & <span className="text-primary">Expertise</span>
+          </h2>
+        </motion.div>
+
+        {/* Skill group grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {SKILL_GROUPS.map((group, i) => (
+            <motion.div
+              key={group.label}
+              className="group flex flex-col gap-4 p-6 rounded-xl border border-border-dark bg-bg-card hover:border-primary/25 transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-30px' }}
+              transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <span className="section-label text-slate-500 group-hover:text-slate-400 transition-colors">
+                {group.label}
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <span
+                    key={item}
+                    className={`inline-flex items-center px-2.5 py-1 rounded-md border text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 ${group.color}`}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )

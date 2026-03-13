@@ -1,79 +1,73 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FaChartBar, FaDumbbell } from 'react-icons/fa'
 
 const STATS = [
-  {
-    label: 'Academic Excellence',
-    metric: '3.6',
-    unit: 'GPA',
-    fill: 'w-[97%]',
-    icon: <FaChartBar className="text-primary" size={20} />,
-  },
-  {
-    label: 'Athletic Tenure',
-    metric: '4',
-    unit: 'Varsity Seasons',
-    fill: 'w-full',
-    icon: <FaDumbbell className="text-primary" size={20} />,
-  },
+  { label: 'GPA', value: '3.6', sub: 'Academic Excellence' },
+  { label: 'Seasons', value: '4', sub: 'Varsity Athletics' },
+  { label: 'Projects', value: '6+', sub: 'Technical Work' },
+  { label: 'Yrs Data', value: '20', sub: 'MVP Model Dataset' },
 ]
 
 const AFFILIATIONS = [
   'BROWN UNIVERSITY',
   'IVY LEAGUE',
-  'MOSAIC PLUS PROGRAM',
+  'MOSAIC+ PROGRAM',
+  'DIV I ATHLETICS',
+  'BROWN UNIVERSITY',
+  'IVY LEAGUE',
+  'MOSAIC+ PROGRAM',
   'DIV I ATHLETICS',
 ]
 
 export default function HeroStats() {
   return (
     <>
-      {/* Stats cards */}
+      {/* Stats strip */}
       <motion.section
-        className="border-t border-primary/20 py-12 px-6 md:px-12 lg:px-24"
+        className="relative z-10 border-t border-border-dark py-10 px-6 md:px-12 lg:px-24"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.6, ease: 'easeOut' }}
+        transition={{ delay: 0.75, duration: 0.7, ease: 'easeOut' }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[800px] mx-auto">
+        <div className="max-w-[1280px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-px bg-border-dark rounded-xl overflow-hidden border border-border-dark">
           {STATS.map((s) => (
             <div
               key={s.label}
-              className="group flex flex-col gap-4 p-8 rounded-xl bg-primary/5 border border-primary/10 hover:border-primary transition-all card-glow"
+              className="group flex flex-col gap-1 p-6 bg-bg-dark hover:bg-primary/5 transition-colors duration-300"
             >
-              <div className="flex items-center justify-between">
-                <p className="section-label text-slate-400">{s.label}</p>
-                {s.icon}
-              </div>
-              <div className="flex items-end gap-2">
-                <h3 className="text-4xl font-black">{s.metric}</h3>
-                <span className="text-slate-500 mb-1 text-sm">{s.unit}</span>
-              </div>
-              <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div className={`bg-primary h-full rounded-full ${s.fill}`} />
+              <span className="section-label text-slate-600 group-hover:text-slate-500 transition-colors">
+                {s.sub}
+              </span>
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="font-bebas text-5xl leading-none text-slate-100 group-hover:text-primary transition-colors duration-300">
+                  {s.value}
+                </span>
+                <span className="section-label text-slate-600">{s.label}</span>
               </div>
             </div>
           ))}
         </div>
       </motion.section>
 
-      {/* Affiliations strip */}
+      {/* Affiliations marquee */}
       <motion.div
-        className="flex items-center justify-center gap-8 md:gap-12 py-10 flex-wrap px-6 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+        className="overflow-hidden border-t border-border-dark py-5"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.4 }}
-        transition={{ delay: 1.0, duration: 0.6 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.1, duration: 0.6 }}
       >
-        {AFFILIATIONS.map((a) => (
-          <span
-            key={a}
-            className="text-xl font-bold italic tracking-tighter text-slate-100"
-          >
-            {a}
-          </span>
-        ))}
+        <div className="marquee-track whitespace-nowrap">
+          {AFFILIATIONS.map((a, i) => (
+            <span
+              key={`${a}-${i}`}
+              className="inline-flex items-center gap-6 px-8 text-sm font-mono font-bold uppercase tracking-[0.25em] text-slate-700"
+            >
+              {a}
+              <span className="w-1 h-1 rounded-full bg-primary/50" />
+            </span>
+          ))}
+        </div>
       </motion.div>
     </>
   )

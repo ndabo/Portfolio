@@ -4,16 +4,15 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────────── */
 :root {
-  --color-primary:      #d41132;
-  --color-primary-hover: #b50e2a;
-  --color-bg-dark:      #12080a;
-  --color-bg-card:      #1d0e11;
-  --color-border:       #3d2226;
-  --color-accent-blue:  #00d4ff;
-  --color-success:      #0bda92;
-  --color-text-primary: #f1f5f9;   /* slate-100 */
-  --color-text-muted:   #94a3b8;   /* slate-400 */
-  --color-bg-light:     #f8f6f6;
+  --color-primary:        #d41132;
+  --color-primary-hover:  #b50e2a;
+  --color-bg-dark:        #0d0608;
+  --color-bg-card:        #160b0d;
+  --color-border:         #2e1a1d;
+  --color-accent-blue:    #00d4ff;
+  --color-success:        #0bda92;
+  --color-text-primary:   #f1f5f9;
+  --color-text-muted:     #78716c;
 }
 
 /* ─── Base ───────────────────────────────────────────────────────── */
@@ -25,13 +24,40 @@
   body {
     background-color: var(--color-bg-dark);
     color: var(--color-text-primary);
-    font-family: var(--font-lexend), sans-serif;
+    font-family: var(--font-ibm), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 
-  /* Remove default focus outline in favour of visible ring */
+  /* Grain texture overlay — adds depth and premium feel */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg-dark);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-hover);
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
@@ -40,39 +66,121 @@
 
 /* ─── Utilities ─────────────────────────────────────────────────── */
 @layer utilities {
-  /* Radial dot grid — hero section background (Stitch screen 1) */
+  /* Radial dot grid */
   .grid-pattern {
     background-image: radial-gradient(
       circle at 1px 1px,
-      rgba(212, 17, 50, 0.05) 1px,
+      rgba(212, 17, 50, 0.04) 1px,
       transparent 0
     );
-    background-size: 40px 40px;
+    background-size: 44px 44px;
   }
 
-  /* Left accent border — used on tagline, attribute pills */
+  /* Line grid for sections */
+  .line-grid {
+    background-image:
+      linear-gradient(rgba(212, 17, 50, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212, 17, 50, 0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Left accent border */
   .border-accent-left {
-    border-left: 4px solid var(--color-primary);
+    border-left: 3px solid var(--color-primary);
   }
 
   /* Card glow on hover */
+  .card-glow {
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  }
   .card-glow:hover {
-    box-shadow: 0 0 20px rgba(212, 17, 50, 0.08);
+    box-shadow: 0 0 0 1px rgba(212, 17, 50, 0.3), 0 8px 32px rgba(212, 17, 50, 0.12);
+  }
+  .card-glow-blue:hover {
+    box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.3), 0 8px 32px rgba(0, 212, 255, 0.1);
   }
 
-  /* Performance metric value style */
+  /* Metric value — monospace numbers */
   .metric-value {
+    font-family: var(--font-mono), monospace;
     @apply text-xl font-black tracking-tighter;
   }
 
   /* Tech badge */
   .tech-badge {
-    @apply text-[10px] font-bold text-slate-500 bg-slate-500/10
-           px-2 py-0.5 rounded border border-slate-500/20 uppercase;
+    font-family: var(--font-mono), monospace;
+    @apply text-[9px] font-bold text-slate-500 bg-slate-500/10
+           px-2 py-0.5 rounded border border-slate-500/20 uppercase tracking-wider;
   }
 
   /* Section label (small caps above headings) */
   .section-label {
-    @apply text-[10px] font-bold uppercase tracking-widest;
+    font-family: var(--font-mono), monospace;
+    @apply text-[10px] font-bold uppercase tracking-[0.2em];
+  }
+
+  /* Display text using Bebas Neue */
+  .font-display {
+    font-family: var(--font-bebas), sans-serif;
+  }
+
+  /* Animated gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-primary), #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Red glow effect */
+  .glow-red {
+    text-shadow: 0 0 40px rgba(212, 17, 50, 0.4);
+  }
+
+  /* Subtle underline animation */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-primary);
+    transition: width 0.3s ease;
+  }
+  .link-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Scan line animation */
+  @keyframes scan-line {
+    0% { transform: translateY(-100%); opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+  }
+
+  .scan-line::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 17, 50, 0.4), transparent);
+    animation: scan-line 8s linear infinite;
+    pointer-events: none;
+  }
+
+  /* Marquee container */
+  .marquee-track {
+    display: flex;
+    animation: marquee 22s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
 }

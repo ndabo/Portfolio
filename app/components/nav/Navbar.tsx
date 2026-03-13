@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaTerminal, FaBars, FaTimes } from 'react-icons/fa'
+import { FaBars, FaTimes } from 'react-icons/fa'
 
 interface NavLink {
   label: string
@@ -19,20 +19,35 @@ const NAV_LINKS: NavLink[] = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 48)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-bg-dark/80 backdrop-blur-md">
-      <div className="flex items-center justify-between px-6 md:px-12 lg:px-24 py-4 max-w-[1200px] mx-auto">
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-500 ${
+        scrolled
+          ? 'border-b border-border-dark bg-bg-dark/90 backdrop-blur-xl shadow-[0_1px_0_rgba(212,17,50,0.1)]'
+          : 'border-b border-transparent bg-transparent'
+      }`}
+    >
+      <div className="flex items-center justify-between px-6 md:px-12 lg:px-24 py-4 max-w-[1280px] mx-auto">
 
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-3 text-slate-100 hover:text-primary transition-colors"
+          className="group flex items-center gap-3 text-slate-100 hover:text-primary transition-colors duration-300"
         >
-          <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg text-white shrink-0">
-            <FaTerminal size={16} />
+          {/* ND monogram */}
+          <div className="relative flex items-center justify-center w-9 h-9 bg-primary rounded-lg overflow-hidden shrink-0">
+            <span className="font-bebas text-lg leading-none text-white tracking-wide">ND</span>
+            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
           </div>
-          <span className="text-xl font-bold leading-tight tracking-tight">
+          <span className="font-ibm text-base font-semibold leading-tight tracking-tight hidden sm:block">
             N&apos;Famara Dabo
           </span>
         </Link>
@@ -46,7 +61,7 @@ export default function Navbar() {
                 href={l.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-slate-300 hover:text-primary transition-colors"
+                className="link-underline text-sm font-medium text-slate-400 hover:text-slate-100 transition-colors duration-200 font-ibm"
               >
                 {l.label}
               </a>
@@ -54,7 +69,7 @@ export default function Navbar() {
               <Link
                 key={l.label}
                 href={l.href}
-                className="text-sm font-medium text-slate-300 hover:text-primary transition-colors"
+                className="link-underline text-sm font-medium text-slate-400 hover:text-slate-100 transition-colors duration-200 font-ibm"
               >
                 {l.label}
               </Link>
@@ -66,21 +81,22 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link
             href="#contact"
-            className="hidden md:flex min-w-[120px] items-center justify-center rounded-lg h-11 px-5 bg-primary text-white text-sm font-bold transition-all hover:bg-primary-hover hover:scale-105 active:scale-95"
+            className="hidden md:flex h-9 items-center justify-center rounded-lg px-5 bg-primary text-white text-sm font-bold font-ibm transition-all duration-300 hover:bg-primary-hover hover:shadow-[0_0_20px_rgba(212,17,50,0.3)] hover:scale-105 active:scale-95"
           >
             Get in touch
           </Link>
+
           <button
             onClick={() => setOpen(!open)}
-            className="md:hidden text-slate-300 hover:text-primary transition-colors p-1"
+            className="md:hidden text-slate-400 hover:text-primary transition-colors p-1"
             aria-label={open ? 'Close menu' : 'Open menu'}
           >
-            {open ? <FaTimes size={22} /> : <FaBars size={22} />}
+            {open ? <FaTimes size={20} /> : <FaBars size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu — animated */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.nav
@@ -89,9 +105,9 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden overflow-hidden border-t border-primary/20 bg-bg-dark/95"
+            className="md:hidden overflow-hidden border-t border-border-dark bg-bg-dark/98 backdrop-blur-xl"
           >
-            <div className="px-6 py-4 flex flex-col gap-4">
+            <div className="px-6 py-5 flex flex-col gap-4">
               {NAV_LINKS.map((l) =>
                 l.external ? (
                   <a
@@ -100,7 +116,7 @@ export default function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setOpen(false)}
-                    className="text-sm font-medium text-slate-300 hover:text-primary transition-colors py-1"
+                    className="text-sm font-medium text-slate-300 hover:text-primary transition-colors py-1 font-ibm"
                   >
                     {l.label}
                   </a>
@@ -109,7 +125,7 @@ export default function Navbar() {
                     key={l.label}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="text-sm font-medium text-slate-300 hover:text-primary transition-colors py-1"
+                    className="text-sm font-medium text-slate-300 hover:text-primary transition-colors py-1 font-ibm"
                   >
                     {l.label}
                   </Link>
@@ -118,7 +134,7 @@ export default function Navbar() {
               <Link
                 href="#contact"
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold"
+                className="flex items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold font-ibm mt-2"
               >
                 Get in touch
               </Link>
