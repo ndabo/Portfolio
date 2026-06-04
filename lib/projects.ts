@@ -32,13 +32,13 @@ export const projects: Project[] = [
     title: 'Autograph Authenticity System',
     category: 'AI/ML',
     description:
-      'Computer vision pipeline that detects and verifies autograph authenticity on sports memorabilia using object detection and embedding similarity. Built during a professional internship.',
+      'Computer vision pipeline that detects and verifies autograph authenticity on sports memorabilia using object detection and embedding similarity. Built through a project-based experience with Metabilia via Brown University’s BrownSPARK Program.',
     approach:
       'YOLOv8 for autograph region detection combined with contrastive embedding models to compare against verified reference signatures.',
     technologies: ['Python', 'YOLOv8', 'PyTorch', 'OpenCV', 'FastAPI'],
     metrics: [
       { label: 'Accuracy', value: '94.2%' },
-      { label: 'Type', value: 'Internship' },
+      { label: 'Program', value: 'BrownSPARK' },
     ],
     github: null,          // private company repository
     demo: null,
