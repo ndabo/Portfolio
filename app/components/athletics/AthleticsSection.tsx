@@ -136,7 +136,7 @@ export default function AthleticsSection() {
               Technical Work <FaArrowRight size={12} />
             </Link>
             <a
-              href="https://www.espn.com/mens-college-basketball/player/_/id/5175857/nfamara-dabo"
+              href="https://grindsession.com/news/alumni-friday-nfamara-dabo-guinea-ivy-league"
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 md:flex-none md:min-w-[160px] border border-border-dark text-slate-400 h-11 rounded-lg font-bold text-sm font-ibm flex items-center justify-center gap-2 hover:border-primary/40 hover:text-slate-200 transition-all duration-300"
