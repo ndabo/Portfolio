@@ -1,12 +1,15 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import AnimatedCounter from '../ui/AnimatedCounter'
 
-const STATS = [
-  { label: 'GPA', value: '3.6', sub: 'Academic Excellence' },
-  { label: 'Seasons', value: '4', sub: 'Varsity Athletics' },
-  { label: 'Projects', value: '6+', sub: 'Technical Work' },
-  { label: 'Yrs Data', value: '20', sub: 'MVP Model Dataset' },
+type Accent = 'primary' | 'data'
+
+const STATS: { label: string; value: string; sub: string; accent: Accent }[] = [
+  { label: 'GPA', value: '3.6', sub: 'Academic Excellence', accent: 'primary' },
+  { label: 'Seasons', value: '4', sub: 'Varsity Athletics', accent: 'primary' },
+  { label: 'Projects', value: '6+', sub: 'Technical Work', accent: 'data' },
+  { label: 'Yrs Data', value: '20', sub: 'MVP Model Dataset', accent: 'data' },
 ]
 
 const AFFILIATIONS = [
@@ -34,15 +37,20 @@ export default function HeroStats() {
           {STATS.map((s) => (
             <div
               key={s.label}
-              className="group flex flex-col gap-1 p-6 bg-bg-dark hover:bg-primary/5 transition-colors duration-300"
+              className="group flex flex-col gap-1 p-6 bg-bg-dark hover:bg-white/[0.02] transition-colors duration-300"
             >
               <span className="section-label text-slate-600 group-hover:text-slate-500 transition-colors">
                 {s.sub}
               </span>
               <div className="flex items-baseline gap-1.5 mt-1">
-                <span className="font-bebas text-5xl leading-none text-slate-100 group-hover:text-primary transition-colors duration-300">
-                  {s.value}
-                </span>
+                <AnimatedCounter
+                  value={s.value}
+                  className={`font-bebas text-5xl leading-none text-slate-100 transition-colors duration-300 ${
+                    s.accent === 'data'
+                      ? 'group-hover:text-accent-blue'
+                      : 'group-hover:text-primary'
+                  }`}
+                />
                 <span className="section-label text-slate-600">{s.label}</span>
               </div>
             </div>
@@ -64,7 +72,7 @@ export default function HeroStats() {
               className="inline-flex items-center gap-6 px-8 text-sm font-mono font-bold uppercase tracking-[0.25em] text-slate-700"
             >
               {a}
-              <span className="w-1 h-1 rounded-full bg-primary/50" />
+              <span className={`w-1 h-1 rounded-full ${i % 2 === 0 ? 'bg-primary/50' : 'bg-accent-blue/50'}`} />
             </span>
           ))}
         </div>
