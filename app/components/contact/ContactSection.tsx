@@ -1,5 +1,6 @@
-import Link from 'next/link'
 import { FaGithub, FaLinkedin, FaInstagram, FaEnvelope, FaArrowRight } from 'react-icons/fa'
+import Reveal from '../ui/Reveal'
+import MagneticButton from '../ui/MagneticButton'
 
 const LINKS = [
   {
@@ -41,54 +42,71 @@ export default function ContactSection() {
       <div className="relative max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24 pt-20 pb-12">
 
         {/* Big CTA */}
-        <div className="flex flex-col items-center text-center gap-6 mb-16">
+        <Reveal className="flex flex-col items-center text-center gap-6 mb-16">
           <span className="section-label text-primary">Get in Touch</span>
 
+          {/* Availability status */}
+          <span className="inline-flex items-center gap-2 rounded-full border border-accent-blue/25 bg-accent-blue/[0.06] px-3 py-1.5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-accent-blue opacity-70 animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-blue" />
+            </span>
+            <span className="section-label text-accent-blue">Currently open to new opportunities</span>
+          </span>
+
           <h2 className="font-bebas text-[clamp(56px,12vw,160px)] leading-none tracking-wide text-slate-100">
-            LET&apos;S <span className="text-primary">CONNECT</span>
+            LET&apos;S <span className="text-gradient">CONNECT</span>
           </h2>
 
           <p className="text-slate-500 text-base font-ibm font-light max-w-md leading-relaxed">
             Open to internships, research collaborations, and interesting conversations about AI, data, and sports tech.
           </p>
 
-          <a
-            href="mailto:ndabo2004@gmail.com"
-            className="group flex items-center gap-3 h-12 px-7 bg-primary text-white text-sm font-bold font-ibm rounded-lg transition-all duration-300 hover:bg-primary-hover hover:shadow-[0_0_32px_rgba(212,17,50,0.4)] hover:scale-[1.02] active:scale-95"
-          >
-            Send me an email
-            <FaArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
-          </a>
-        </div>
+          <MagneticButton>
+            <a
+              href="mailto:ndabo2004@gmail.com"
+              className="group flex items-center gap-3 h-12 px-7 bg-primary text-white text-sm font-bold font-ibm rounded-lg transition-all duration-300 hover:bg-primary-hover hover:shadow-[0_0_32px_rgba(225,29,58,0.45)] active:scale-95"
+            >
+              Send me an email
+              <FaArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
+            </a>
+          </MagneticButton>
+        </Reveal>
 
         {/* Divider */}
         <div className="h-px bg-border-dark mb-12" />
 
         {/* Link cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-14">
-          {LINKS.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col gap-2 p-4 rounded-xl border border-border-dark bg-bg-card hover:border-primary/30 hover:bg-primary/4 transition-all duration-300"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-slate-500 group-hover:text-primary transition-colors duration-200">
-                  {l.icon}
-                </span>
-                <FaArrowRight
-                  size={10}
-                  className="text-slate-700 group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200"
-                />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-slate-200 font-ibm group-hover:text-primary transition-colors">{l.label}</p>
-                <p className="text-xs text-slate-600 font-mono mt-0.5 truncate">{l.sub}</p>
-              </div>
-            </a>
-          ))}
+          {LINKS.map((l, i) => {
+            const cyan = i % 2 === 1
+            const hoverBorder = cyan ? 'hover:border-accent-blue/30' : 'hover:border-primary/30'
+            const hoverText = cyan ? 'group-hover:text-accent-blue' : 'group-hover:text-primary'
+            return (
+              <Reveal key={l.label} delay={i * 0.06}>
+                <a
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`group flex flex-col gap-2 p-4 rounded-xl border border-border-dark bg-bg-card hover:bg-bg-card-hover hover:-translate-y-1 ${hoverBorder} transition-all duration-300`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className={`text-slate-500 ${hoverText} transition-colors duration-200`}>
+                      {l.icon}
+                    </span>
+                    <FaArrowRight
+                      size={10}
+                      className={`text-slate-700 ${hoverText} group-hover:translate-x-0.5 transition-all duration-200`}
+                    />
+                  </div>
+                  <div>
+                    <p className={`text-sm font-bold text-slate-200 font-ibm ${hoverText} transition-colors`}>{l.label}</p>
+                    <p className="text-xs text-slate-600 font-mono mt-0.5 truncate">{l.sub}</p>
+                  </div>
+                </a>
+              </Reveal>
+            )
+          })}
         </div>
 
         {/* Bottom bar */}
