@@ -31,7 +31,7 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-500 ${
         scrolled
-          ? 'border-b border-border-dark bg-bg-dark/90 backdrop-blur-xl shadow-[0_1px_0_rgba(212,17,50,0.1)]'
+          ? 'border-b border-border-dark bg-bg-dark/90 backdrop-blur-xl shadow-[0_1px_0_rgba(34,211,238,0.12)]'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
@@ -81,7 +81,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link
             href="#contact"
-            className="hidden md:flex h-9 items-center justify-center rounded-lg px-5 bg-primary text-white text-sm font-bold font-ibm transition-all duration-300 hover:bg-primary-hover hover:shadow-[0_0_20px_rgba(212,17,50,0.3)] hover:scale-105 active:scale-95"
+            className="hidden md:flex h-9 items-center justify-center rounded-lg px-5 bg-primary text-white text-sm font-bold font-ibm transition-all duration-300 hover:bg-primary-hover hover:shadow-[0_0_20px_rgba(225,29,58,0.35)] hover:scale-105 active:scale-95"
           >
             Get in touch
           </Link>

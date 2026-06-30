@@ -4,10 +4,12 @@ import ProjectsGrid from './components/projects/ProjectsGrid'
 import AthleticsSection from './components/athletics/AthleticsSection'
 import SkillsSection from './components/skills/SkillsSection'
 import ContactSection from './components/contact/ContactSection'
+import ScrollProgress from './components/ui/ScrollProgress'
 
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
       <Navbar />
       <Hero />
       <ProjectsGrid />

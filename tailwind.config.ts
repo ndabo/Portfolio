@@ -9,17 +9,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Crimson — brand / identity accent
         primary: {
-          DEFAULT: '#d41132',
-          hover:   '#b50e2a',
-          muted:   'rgba(212,17,50,0.1)',
+          DEFAULT: '#e11d3a',
+          hover:   '#c41730',
+          muted:   'rgba(225,29,58,0.1)',
         },
-        'bg-dark':  '#0d0608',
-        'bg-card':  '#160b0d',
-        'border-dark': '#2e1a1d',
-        'accent-blue': '#00d4ff',
-        success: '#0bda92',
-        'bg-light': '#f8f6f6',
+        // Electric cyan — data / tech / metrics accent
+        'accent-blue': {
+          DEFAULT: '#22d3ee',
+          hover:   '#0891b2',
+          muted:   'rgba(34,211,238,0.1)',
+        },
+        // Cool near-black surfaces
+        'bg-dark':     '#070a0d',
+        'bg-elevated': '#0b0f14',
+        'bg-card':     '#0f1419',
+        'bg-card-hover': '#131b23',
+        'border-dark':   '#1b242e',
+        'border-strong': '#283442',
+        success: '#34d399',
+        'bg-light': '#f8fafc',
       },
       fontFamily: {
         bebas: ['var(--font-bebas)', 'sans-serif'],
@@ -36,9 +46,9 @@ const config: Config = {
       },
       backgroundImage: {
         'grid-pattern':
-          'radial-gradient(circle at 1px 1px, rgba(212,17,50,0.04) 1px, transparent 0)',
+          'radial-gradient(circle at 1px 1px, rgba(34,211,238,0.05) 1px, transparent 0)',
         'grid-line':
-          'linear-gradient(rgba(212,17,50,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(212,17,50,0.03) 1px, transparent 1px)',
+          'linear-gradient(rgba(148,163,184,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.035) 1px, transparent 1px)',
       },
       backgroundSize: {
         'grid-40': '40px 40px',
