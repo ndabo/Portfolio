@@ -18,6 +18,9 @@ export default function ProjectsGrid() {
   const filtered =
     active === 'All' ? projects : projects.filter((p) => p.category === active)
 
+  const countFor = (f: Filter) =>
+    f === 'All' ? projects.length : projects.filter((p) => p.category === f).length
+
   return (
     <>
       <section id="projects" className="relative px-6 py-24 md:px-12 lg:px-24 bg-bg-dark overflow-hidden">
@@ -48,7 +51,7 @@ export default function ProjectsGrid() {
 
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <h2 className="font-bebas text-[clamp(48px,8vw,96px)] leading-none tracking-wide text-slate-100">
-                Technical <span className="text-primary">Projects</span>
+                Technical <span className="text-gradient">Projects</span>
               </h2>
               <p className="text-slate-500 text-sm max-w-sm leading-relaxed font-ibm font-light md:text-right">
                 High-performance AI, Data Science, and Engineering solutions developed at Brown University.
@@ -71,13 +74,20 @@ export default function ProjectsGrid() {
               <button
                 key={f}
                 onClick={() => setActive(f)}
-                className={`h-8 px-4 rounded-md text-xs font-bold font-mono uppercase tracking-wider transition-all duration-200 ${
+                className={`group flex h-8 items-center gap-2 px-4 rounded-md text-xs font-bold font-mono uppercase tracking-wider transition-all duration-200 ${
                   active === f
-                    ? 'bg-primary text-white shadow-[0_0_12px_rgba(212,17,50,0.3)]'
-                    : 'bg-bg-card border border-border-dark text-slate-500 hover:text-slate-300 hover:border-slate-600'
+                    ? 'bg-primary text-white shadow-[0_0_14px_rgba(225,29,58,0.35)]'
+                    : 'bg-bg-card border border-border-dark text-slate-500 hover:text-slate-300 hover:border-border-strong'
                 }`}
               >
                 {f === 'All' ? 'All' : f}
+                <span
+                  className={`text-[10px] tabular-nums leading-none ${
+                    active === f ? 'text-white/70' : 'text-slate-600 group-hover:text-slate-500'
+                  }`}
+                >
+                  {countFor(f)}
+                </span>
               </button>
             ))}
           </motion.div>

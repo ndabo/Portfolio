@@ -49,7 +49,7 @@ export default function ProjectModal({
             exit={{ opacity: 0, y: 48 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="relative w-full sm:max-w-2xl max-h-[92vh] min-h-0 overflow-y-auto rounded-t-2xl sm:rounded-2xl bg-bg-card border border-border-dark shadow-[0_0_0_1px_rgba(212,17,50,0.15),0_32px_80px_rgba(0,0,0,0.6)]">
+            <div className="relative w-full sm:max-w-2xl max-h-[92vh] min-h-0 overflow-y-auto rounded-t-2xl sm:rounded-2xl bg-bg-card border border-border-dark shadow-[0_0_0_1px_rgba(34,211,238,0.15),0_32px_80px_rgba(0,0,0,0.6)]">
 
               {/* Close button */}
               <button
@@ -101,7 +101,7 @@ export default function ProjectModal({
                   {project.metrics.map((m) => (
                     <div key={m.label} className="flex flex-col gap-1 p-4 rounded-xl bg-bg-dark border border-border-dark">
                       <span className="section-label text-slate-600">{m.label}</span>
-                      <span className="font-mono text-3xl font-black text-primary leading-none">{m.value}</span>
+                      <span className="font-mono text-3xl font-black text-accent-blue leading-none">{m.value}</span>
                     </div>
                   ))}
                 </div>
@@ -151,7 +151,7 @@ export default function ProjectModal({
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg font-bold text-sm font-ibm hover:bg-primary-hover hover:shadow-[0_0_20px_rgba(212,17,50,0.3)] transition-all"
+                      className="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg font-bold text-sm font-ibm hover:bg-primary-hover hover:shadow-[0_0_20px_rgba(225,29,58,0.35)] transition-all"
                     >
                       <FaGithub size={13} /> View on GitHub
                     </a>

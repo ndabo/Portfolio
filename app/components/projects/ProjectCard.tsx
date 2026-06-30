@@ -1,7 +1,8 @@
 'use client'
 
+import { useRef } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion } from 'framer-motion'
 import { FaGithub, FaExternalLinkAlt, FaArrowRight } from 'react-icons/fa'
 import type { Project, ProjectCategory } from '@/lib/projects'
 
@@ -13,6 +14,7 @@ interface CategoryStyle {
   badgeLabel:  string
   gradient:    string
   glow:        string
+  spotlight:   string  // rgba used for the cursor-following glow
 }
 
 const CATEGORY_STYLE: Record<ProjectCategory, CategoryStyle> = {
@@ -23,7 +25,8 @@ const CATEGORY_STYLE: Record<ProjectCategory, CategoryStyle> = {
     badge:       'bg-accent-blue/15 border-accent-blue/25 text-accent-blue',
     badgeLabel:  'ACTIVE MODEL',
     gradient:    'from-blue-950/80 via-cyan-950/40 to-bg-dark',
-    glow:        'group-hover:shadow-[0_0_0_1px_rgba(0,212,255,0.25),0_12px_40px_rgba(0,212,255,0.08)]',
+    glow:        'group-hover:shadow-[0_0_0_1px_rgba(34,211,238,0.25),0_12px_40px_rgba(34,211,238,0.08)]',
+    spotlight:   'rgba(34,211,238,0.14)',
   },
   'Data Science': {
     hoverBorder: 'hover:border-primary/40',
@@ -32,7 +35,8 @@ const CATEGORY_STYLE: Record<ProjectCategory, CategoryStyle> = {
     badge:       'bg-primary/15 border-primary/25 text-primary',
     badgeLabel:  'LIVE DATA',
     gradient:    'from-rose-950/80 via-red-950/40 to-bg-dark',
-    glow:        'group-hover:shadow-[0_0_0_1px_rgba(212,17,50,0.25),0_12px_40px_rgba(212,17,50,0.08)]',
+    glow:        'group-hover:shadow-[0_0_0_1px_rgba(225,29,58,0.25),0_12px_40px_rgba(225,29,58,0.08)]',
+    spotlight:   'rgba(225,29,58,0.14)',
   },
   'Sports Tech': {
     hoverBorder: 'hover:border-primary/40',
@@ -41,7 +45,8 @@ const CATEGORY_STYLE: Record<ProjectCategory, CategoryStyle> = {
     badge:       'bg-primary/15 border-primary/25 text-primary',
     badgeLabel:  'REAL-TIME',
     gradient:    'from-rose-950/80 via-red-950/40 to-bg-dark',
-    glow:        'group-hover:shadow-[0_0_0_1px_rgba(212,17,50,0.25),0_12px_40px_rgba(212,17,50,0.08)]',
+    glow:        'group-hover:shadow-[0_0_0_1px_rgba(225,29,58,0.25),0_12px_40px_rgba(225,29,58,0.08)]',
+    spotlight:   'rgba(225,29,58,0.14)',
   },
   'Networking': {
     hoverBorder: 'hover:border-accent-blue/40',
@@ -50,7 +55,8 @@ const CATEGORY_STYLE: Record<ProjectCategory, CategoryStyle> = {
     badge:       'bg-accent-blue/15 border-accent-blue/25 text-accent-blue',
     badgeLabel:  'PRODUCTION',
     gradient:    'from-cyan-950/80 via-blue-950/40 to-bg-dark',
-    glow:        'group-hover:shadow-[0_0_0_1px_rgba(0,212,255,0.25),0_12px_40px_rgba(0,212,255,0.08)]',
+    glow:        'group-hover:shadow-[0_0_0_1px_rgba(34,211,238,0.25),0_12px_40px_rgba(34,211,238,0.08)]',
+    spotlight:   'rgba(34,211,238,0.14)',
   },
   'Web Dev': {
     hoverBorder: 'hover:border-accent-blue/40',
@@ -59,7 +65,8 @@ const CATEGORY_STYLE: Record<ProjectCategory, CategoryStyle> = {
     badge:       'bg-accent-blue/15 border-accent-blue/25 text-accent-blue',
     badgeLabel:  'DEPLOYED',
     gradient:    'from-indigo-950/80 via-blue-950/40 to-bg-dark',
-    glow:        'group-hover:shadow-[0_0_0_1px_rgba(0,212,255,0.25),0_12px_40px_rgba(0,212,255,0.08)]',
+    glow:        'group-hover:shadow-[0_0_0_1px_rgba(34,211,238,0.25),0_12px_40px_rgba(34,211,238,0.08)]',
+    spotlight:   'rgba(34,211,238,0.14)',
   },
 }
 
@@ -74,16 +81,39 @@ export default function ProjectCard({
 }) {
   const s = CATEGORY_STYLE[project.category]
   const [metric0, metric1] = project.metrics
+  const reduce = useReducedMotion()
+
+  // Cursor-following spotlight glow (skipped under reduced-motion).
+  const mx = useMotionValue(0)
+  const my = useMotionValue(0)
+  const spotlight = useMotionTemplate`radial-gradient(420px circle at ${mx}px ${my}px, ${s.spotlight}, transparent 65%)`
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (reduce) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    mx.set(e.clientX - rect.left)
+    my.set(e.clientY - rect.top)
+  }
 
   return (
     <motion.article
       onClick={onClick}
+      onMouseMove={handleMouseMove}
       className={`group relative flex flex-col rounded-xl bg-bg-card border border-border-dark ${s.hoverBorder} ${s.glow} transition-all duration-400 ${onClick ? 'cursor-pointer' : ''}`}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
     >
+      {/* Cursor-following spotlight — fades in on hover */}
+      {!reduce && (
+        <motion.div
+          aria-hidden
+          style={{ background: spotlight }}
+          className="pointer-events-none absolute inset-0 z-30 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        />
+      )}
+
       {/* Image / gradient */}
       <div className="relative overflow-hidden rounded-t-xl aspect-video">
         <div className="absolute inset-0 bg-gradient-to-t from-bg-card/90 via-bg-card/20 to-transparent z-10" />
