@@ -2,29 +2,34 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { FaArrowRight } from 'react-icons/fa'
 
 const TRAITS = [
   {
     label: '01',
     title: 'Teamwork',
-    desc: 'Collaborating and performing under high pressure environments.',
+    from: 'Reading the floor with four teammates',
+    to: 'Shipping in sync with an engineering team',
   },
   {
     label: '02',
     title: 'Resilience',
-    desc: 'Adapting fast to technical challenges and adversity.',
+    from: 'Bouncing back after a tough loss',
+    to: 'Debugging through failure until it works',
   },
   {
     label: '03',
     title: 'Precision',
-    desc: 'Executing with the accuracy of a trained competitor.',
+    from: 'Thousands of reps for one clean shot',
+    to: 'Tested, accurate, well-structured code',
   },
   {
     label: '04',
     title: 'Discipline',
-    desc: '20+ hours weekly — coding and competing at the highest level.',
+    from: '20+ hrs/week training around a full load',
+    to: 'The same focus applied to building software',
   },
 ]
 
@@ -36,8 +41,17 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function AthleticsSection() {
+  const ref = useRef<HTMLElement>(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  })
+  // Photo drifts gently as the section scrolls through the viewport.
+  const photoY = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 40, reduce ? 0 : -40])
+
   return (
-    <section id="athletics" className="relative px-6 py-24 md:px-12 lg:px-24 bg-bg-dark overflow-hidden">
+    <section ref={ref} id="athletics" className="relative px-6 py-24 md:px-12 lg:px-24 bg-bg-dark overflow-hidden">
 
       {/* Ambient glow */}
       <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[140px] pointer-events-none" />
@@ -63,13 +77,15 @@ export default function AthleticsSection() {
             <div className="absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-primary z-20" />
 
             <div className="relative h-[480px] sm:h-[560px] w-full rounded-xl overflow-hidden bg-bg-card border border-primary/15">
-              <Image
-                src="/athletics/athlete.JPG"
-                alt="N'Famara Dabo — Division I Athlete"
-                fill
-                sizes="(max-width: 768px) 100vw, 42vw"
-                className="object-cover"
-              />
+              <motion.div style={{ y: photoY }} className="absolute -inset-y-12 inset-x-0">
+                <Image
+                  src="/athletics/athlete.JPG"
+                  alt="N'Famara Dabo — Division I Athlete"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 42vw"
+                  className="object-cover"
+                />
+              </motion.div>
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent" />
 
@@ -111,18 +127,29 @@ export default function AthleticsSection() {
             </p>
           </motion.div>
 
-          {/* Traits grid */}
+          {/* Traits grid — explicit court → code bridge */}
           <motion.div className="grid grid-cols-2 gap-3" {...fadeUp(0.2)}>
             {TRAITS.map((t) => (
               <div
                 key={t.title}
-                className="group flex flex-col gap-2 p-4 rounded-xl border border-border-dark bg-bg-card hover:border-primary/30 hover:bg-primary/4 transition-all duration-300"
+                className="group flex flex-col gap-3 p-4 rounded-xl border border-border-dark bg-bg-card hover:border-primary/30 hover:bg-primary/4 transition-all duration-300"
               >
                 <div className="flex items-center justify-between">
+                  <h4 className="font-bold text-slate-100 font-ibm group-hover:text-primary transition-colors">{t.title}</h4>
                   <span className="font-mono text-[10px] font-bold text-primary/60">{t.label}</span>
                 </div>
-                <h4 className="font-bold text-slate-100 font-ibm group-hover:text-primary transition-colors">{t.title}</h4>
-                <p className="text-xs text-slate-500 leading-relaxed font-ibm font-light">{t.desc}</p>
+
+                {/* Court (crimson / identity) */}
+                <div className="flex items-start gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" />
+                  <p className="text-xs text-slate-400 leading-relaxed font-ibm font-light">{t.from}</p>
+                </div>
+
+                {/* Code (cyan / engineering) */}
+                <div className="flex items-start gap-2">
+                  <FaArrowRight size={9} className="mt-1 shrink-0 text-accent-blue" />
+                  <p className="text-xs text-slate-300 leading-relaxed font-ibm">{t.to}</p>
+                </div>
               </div>
             ))}
           </motion.div>
@@ -131,7 +158,7 @@ export default function AthleticsSection() {
           <motion.div className="flex gap-3 pt-2" {...fadeUp(0.35)}>
             <Link
               href="#projects"
-              className="flex-1 md:flex-none md:min-w-[180px] bg-primary text-white h-11 rounded-lg font-bold text-sm font-ibm flex items-center justify-center gap-2 hover:bg-primary-hover hover:shadow-[0_0_20px_rgba(212,17,50,0.3)] transition-all duration-300 hover:scale-[1.02]"
+              className="flex-1 md:flex-none md:min-w-[180px] bg-primary text-white h-11 rounded-lg font-bold text-sm font-ibm flex items-center justify-center gap-2 hover:bg-primary-hover hover:shadow-[0_0_20px_rgba(225,29,58,0.35)] transition-all duration-300 hover:scale-[1.02]"
             >
               Technical Work <FaArrowRight size={12} />
             </Link>
